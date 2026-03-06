@@ -16,3 +16,15 @@ the main "day of the week" classes.
 *NOTE:* By default, this snippet relies on the [Bai Jamjuree](https://fonts.google.com/specimen/Bai+Jamjuree) or
 [JetBrainsMono Nerd Font Mono](https://www.jetbrains.com/lp/mono/) fonts. If you don't wish to use these, then just
 change or remove those font-family lines from the snippet.
+
+## Editor
+
+A simple editor is provided to customize the color themes. To use it:
+
+1. Open `Daily Note Themes Editor.html` in your web browser;
+2. Customize the colors as you see fit;
+3. Click the button `⬇ Copy CSS variables` to copy the new colors
+4. Open `Daily Note Themes.css` in your text editor;
+5. Select the section that defines the highlight, primary and dark colors for each day of the week, and paste.
+
+![editor demo](https://github.com/Lauloque/Obsidian-Daily-Themes/blob/theme-editor/Theme%20Editor%20Demo.webp?raw=true)
