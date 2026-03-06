@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Note Theme Tester</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ui-bg:       #0d0e14;
+    --ui-surface:  #15161f;
+    --ui-border:   #252838;
+    --ui-text:     #c8cad8;
+    --ui-muted:    #5a5d75;
+    --ui-accent:   #6f7cff;
+    --ui-font:     "JetBrains Mono", monospace;
+    --ui-display:  "Bai Jamjuree", sans-serif;
+  }
+
+  body {
+    background: var(--ui-bg);
+    color: var(--ui-text);
+    font-family: var(--ui-font);
+    font-size: 13px;
+    min-height: 100vh;
+  }
+
+  header {
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid var(--ui-border);
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+  header h1 {
+    font-family: var(--ui-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+  header span {
+    color: var(--ui-muted);
+    font-size: 12px;
+  }
+
+  .copy-btn-wrap {
+    margin-left: auto;
+  }
+  #copy-btn {
+    background: var(--ui-accent);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-family: var(--ui-font);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: opacity .15s;
+  }
+  #copy-btn:hover { opacity: .85; }
+  #copy-btn.copied { background: #3ecf8e; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1px;
+    background: var(--ui-border);
+  }
+
+  /* ── THEME CARD ── */
+  .card {
+    background: var(--ui-surface);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Preview pane */
+  .preview {
+    padding: 20px 18px 16px;
+    background-color: var(--t-dark);
+    flex: 1;
+    transition: background-color .2s;
+  }
+  .preview .p-h1 {
+    color: var(--t-primary);
+    font-family: var(--ui-display);
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .preview .p-h2 {
+    color: var(--t-highlight);
+    font-family: var(--ui-display);
+    font-size: 15px;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+  .preview hr {
+    border: none;
+    border-top: 1px solid var(--t-primary);
+    margin: 10px 0;
+    opacity: .6;
+  }
+  .preview .p-h4 {
+    display: inline-block;
+    background: var(--t-primary);
+    color: var(--t-dark);
+    font-family: var(--ui-font);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+  }
+  .preview .p-body {
+    color: var(--t-highlight);
+    font-family: var(--ui-font);
+    font-size: 11px;
+    line-height: 1.6;
+    opacity: .85;
+  }
+  .preview .p-body a {
+    color: var(--t-primary);
+    text-decoration: none;
+  }
+  .preview .p-tag {
+    display: inline-block;
+    background: var(--t-primary);
+    color: var(--t-dark);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 20px;
+    margin-top: 10px;
+    font-family: var(--ui-font);
+  }
+
+  /* Controls pane */
+  .controls {
+    padding: 12px 14px 14px;
+    border-top: 1px solid var(--ui-border);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .theme-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: .5px;
+    margin-bottom: 4px;
+  }
+
+  .color-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .color-row label {
+    width: 72px;
+    font-size: 10px;
+    color: var(--ui-muted);
+    flex-shrink: 0;
+  }
+  .color-row input[type="color"] {
+    width: 28px;
+    height: 22px;
+    border: 1px solid var(--ui-border);
+    border-radius: 4px;
+    padding: 1px;
+    background: transparent;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .color-row input[type="text"] {
+    flex: 1;
+    background: var(--ui-bg);
+    border: 1px solid var(--ui-border);
+    border-radius: 4px;
+    color: var(--ui-text);
+    font-family: var(--ui-font);
+    font-size: 11px;
+    padding: 3px 7px;
+    outline: none;
+    transition: border-color .15s;
+  }
+  .color-row input[type="text"]:focus {
+    border-color: var(--ui-accent);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Daily Note Theme Tester</h1>
+  <span>edit colors → copy CSS</span>
+  <div class="copy-btn-wrap">
+    <button id="copy-btn" onclick="copyCSS()">⬇ Copy CSS variables</button>
+  </div>
+</header>
+
+<div class="grid" id="days-grid"></div>
+
+<script>
+const THEMES = [
+  { id: "sunday",    name: "Sunday",
+    h: "#f39caa", p: "#f6466f", d: "#2d0916", subtitle: "Start of the week" },
+  { id: "monday",    name: "Monday",
+    h: "#fcadaa", p: "#f65848", d: "#3c0e0b", subtitle: "Back to it" },
+  { id: "tuesday",   name: "Tuesday",
+    h: "#aedbfa", p: "#3b87f0", d: "#070615", subtitle: "Deep work" },
+  { id: "wednesday", name: "Wednesday",
+    h: "#fff3c4", p: "#ffd63d", d: "#2c1404", subtitle: "Midweek" },
+  { id: "thursday",  name: "Thursday",
+    h: "#f7b79b", p: "#ed6022", d: "#210b04", subtitle: "Almost there" },
+  { id: "friday",    name: "Friday",
+    h: "#e9f9b7", p: "#92e649", d: "#192108", subtitle: "End of the week" },
+  { id: "saturday",  name: "Saturday",
+    h: "#f39caa", p: "#e22c3c", d: "#100305", subtitle: "Weekend" },
+];
+
+const state = {};
+THEMES.forEach(t => { state[t.id] = { h: t.h, p: t.p, d: t.d }; });
+
+function renderCard(t) {
+  return `
+  <div class="card" id="card-${t.id}">
+    <div class="preview" id="preview-${t.id}"
+         style="--t-highlight:${t.h}; --t-primary:${t.p}; --t-dark:${t.d}">
+      <div class="p-h1">${t.name}</div>
+      <div class="p-h2">${t.subtitle}</div>
+      <hr>
+      <div class="p-h4">#### Section</div>
+      <div class="p-body">
+        Some note content with a <a href="#">wiki link</a> inside it.<br>
+        — a quick bullet item here
+      </div>
+      <div class="p-tag">#${t.id}</div>
+    </div>
+    <div class="controls">
+      <div class="theme-name">${t.name.toUpperCase()}</div>
+      ${colorRow(t.id, "highlight", t.h)}
+      ${colorRow(t.id, "primary",   t.p)}
+      ${colorRow(t.id, "dark",      t.d)}
+    </div>
+  </div>`;
+}
+
+function colorRow(id, varName, value) {
+  return `
+  <div class="color-row">
+    <label>--${varName}</label>
+    <input type="color" id="swatch-${id}-${varName}" value="${value}"
+           oninput="onColor('${id}','${varName}',this.value)">
+    <input type="text"  id="text-${id}-${varName}"   value="${value}" maxlength="7"
+           oninput="onText('${id}','${varName}',this.value)">
+  </div>`;
+}
+
+function onColor(id, varName, value) {
+  document.getElementById(`text-${id}-${varName}`).value = value;
+  applyColor(id, varName, value);
+}
+function onText(id, varName, value) {
+  if (/^#[0-9a-fA-F]{6}$/.test(value)) {
+    document.getElementById(`swatch-${id}-${varName}`).value = value;
+    applyColor(id, varName, value);
+  }
+}
+function applyColor(id, varName, value) {
+  const key = varName === "highlight" ? "h" : varName === "primary" ? "p" : "d";
+  state[id][key] = value;
+  const cssVar = varName === "highlight" ? "--t-highlight"
+               : varName === "primary"   ? "--t-primary"
+               :                          "--t-dark";
+  document.getElementById(`preview-${id}`).style.setProperty(cssVar, value);
+}
+
+const grid = document.getElementById("days-grid");
+THEMES.forEach(t => {
+  const el = document.createElement("div");
+  el.innerHTML = renderCard(t);
+  grid.appendChild(el.firstElementChild);
+});
+
+function generateCSS() {
+  return THEMES.map(t => {
+    const s = state[t.id];
+    const day = t.name;
+    return `.${day.toLowerCase()}, .${day} {\n  --highlight: ${s.h};\n  --primary: ${s.p};\n  --dark: ${s.d};\n}`;
+  }).join("\n");
+}
+
+function copyCSS() {
+  navigator.clipboard.writeText(generateCSS()).then(() => {
+    const btn = document.getElementById("copy-btn");
+    btn.textContent = "✓ Copied!";
+    btn.classList.add("copied");
+    setTimeout(() => {
+      btn.textContent = "⬇ Copy CSS variables";
+      btn.classList.remove("copied");
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>
