@@ -8,13 +8,14 @@ the main "day of the week" classes.
 
 NOTE: By default, this snippet relies on the "Bai Jamjuree" or
 "JetBrainsMono Nerd Font Mono" fonts. If you don't wish to use these, then just
-change or remove those font-family lines from this snippet.
+change or remove those font-families from the `daily-font` variable just below.
                 
 ------------------------------------------------------------------------------*/
 :root {
   --highlight: #ffffff;
   --primary: #aaaaaa;
   --dark: #333333;
+  --daily-font: "Bai Jamjuree", "JetBrainsMono Nerd Font Mono", "JetBrains Mono";
 }
 
 .daily {
@@ -87,14 +88,14 @@ change or remove those font-family lines from this snippet.
   color: var(--primary);
   text-align: center;
   font-size: 60px;
-  font-family: "Bai Jamjuree", "JetBrainsMono Nerd Font Mono", "JetBrains Mono";
+  font-family: var(--daily-font);
   padding: 0 !important;
 }
 .daily :is(h2, .HyperMD-header.HyperMD-header-2) {
   color: var(--highlight);
   text-align: center;
   font-size: 30px;
-  font-family: "Bai Jamjuree", "JetBrainsMono Nerd Font Mono", "JetBrains Mono";
+  font-family: var(--daily-font);
   font-style: italic;
   padding: 0 !important;
 }
@@ -103,14 +104,14 @@ change or remove those font-family lines from this snippet.
   text-align: center;
 
   font-size: 32px;
-  font-family: "Bai Jamjuree", "JetBrainsMono Nerd Font Mono", "JetBrains Mono";
+  font-family: var(--daily-font);
   padding-top: 0;
 }
 .daily :is(h4, .HyperMD-header.HyperMD-header-4) {
   background-color: var(--primary);
   color: var(--dark);
   /* border-color: var(--primary); */
-  /* font-family: "JetBrainsMono Nerd Font Mono", "JetBrains Mono", monospace; */
+  /* font-family: var(--daily-font); */
   font-weight: 900;
   margin-bottom: 0;
   padding-top: 0;
